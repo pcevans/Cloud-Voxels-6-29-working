@@ -1,21 +1,11 @@
 //--------------------------------------------------------------------------------------
 // File: lecture 8.cpp
 //
-// This application demonstrates texturing
+// Clouds, voxels, and octres
 //
-// Copyright (c) Microsoft Corporation. All rights reserved.
 //--------------------------------------------------------------------------------------
 
 #include "render_to_texture.h"
-
-
-
-//--------------------------------------------------------------------------------------
-// Structures
-//--------------------------------------------------------------------------------------
-
-
-
 
 //--------------------------------------------------------------------------------------
 // Global Variables
@@ -38,7 +28,6 @@ RenderTextureClass					RenderToTexture;
 RenderTextureClass					Voxel_GI;
 RenderTextureClass					ShadowToTexture;
 RenderTextureClass					VLToTexture;
-
 RenderTextureClass					BrightToTexture;
 RenderTextureClass					BloomToTexture;
 
@@ -55,12 +44,6 @@ ID3D11PixelShader*                  g_pPixelShader = NULL;
 ID3D11VertexShader*                 g_pEffectVS = NULL;
 ID3D11PixelShader*                  g_pEffectPS = NULL;
 
-
-ID3D11VertexShader*                 voxelVS = NULL;
-ID3D11GeometryShader*				voxelGS = NULL;
-ID3D11PixelShader*                  voxelPS = NULL;
-voxel_								voxel;
-
 ID3D11VertexShader*                 g_pShadowVS = NULL;
 ID3D11PixelShader*                  g_pShadowPS = NULL;
 ID3D11PixelShader*                  PSsun = NULL;
@@ -68,6 +51,11 @@ ID3D11PixelShader*                  PSsun = NULL;
 ID3D11PixelShader*                  PSbright = NULL;
 ID3D11PixelShader*                  PSbloom = NULL;
 ID3D11VertexShader*                 VSbloom = NULL;
+
+ID3D11VertexShader*                 voxelVS = NULL;
+ID3D11GeometryShader*				voxelGS = NULL;
+ID3D11PixelShader*                  voxelPS = NULL;
+voxel_								voxel;
 
 
 ID3D11InputLayout*                  g_pVertexLayout = NULL;
@@ -79,7 +67,6 @@ int vertex_count;
 //states for turning off and on the depth buffer
 ID3D11DepthStencilState				*ds_on, *ds_off;
 ID3D11BlendState*					g_BlendState;
-
 
 
 ID3D11Buffer*                       g_pCBuffer = NULL;
@@ -102,6 +89,7 @@ XMFLOAT3							rocket_position;
 
 int									plane = 0;
 int									Clcount = 0;
+int									voxeldraw = 0;
 int									numberOfClouds = 5;
 float								offsetx = 2;
 float								offsetz = 2;
@@ -289,7 +277,6 @@ HRESULT InitDevice()
 	hr = g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
 	if (FAILED(hr))
 		return hr;
-
 	hr = g_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &g_pRenderTargetView);
 	pBackBuffer->Release();
 	if (FAILED(hr))
@@ -332,7 +319,6 @@ HRESULT InitDevice()
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
 	g_pImmediateContext->RSSetViewports(1, &vp);
-
 
 	/////////// Shaders ///////////
 	ID3DBlob* pVSBlob = NULL;
@@ -440,14 +426,14 @@ HRESULT InitDevice()
 
 	// Screen vertex shader
 	pVSBlob = NULL;
-	hr = CompileShaderFromFile(L"shader.fx", "VS_screen", "vs_4_0", &pVSBlob);//here you load the shader from the fx file into the monstrous blob 
+	hr = CompileShaderFromFile(L"shader.fx", "VS_screen", "vs_4_0", &pVSBlob);
 	if (FAILED(hr))
 	{
 		MessageBox(NULL,
 			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
 		return hr;
 	}
-	hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, &g_pVertexShader_screen);//and here you build the shader from the blob, this order must kept
+	hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, &g_pVertexShader_screen);
 	if (FAILED(hr))
 	{
 		pVSBlob->Release();
@@ -599,21 +585,20 @@ HRESULT InitDevice()
 	// Set the input layout
 	g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
 
-	//create skybox vertex buffer
-	SimpleVertex vertices_skybox[] =
+	/////////// Vertex buffers ///////////
+	// Create skysphere vertex buffer
+	LoadCatmullClark(L"ccsphere.cmp", g_pd3dDevice, &g_pVertexBuffer_sky, &vertex_count);
+
+	// Create screen vertex buffer
+	SimpleVertex vertices_screen[] =
 	{
 		{ XMFLOAT3(-1.0f, 1.0f, 0.0f), XMFLOAT2(0,0) ,XMFLOAT3(0.0f, 0.0f, 1.0f), },
 		{ XMFLOAT3(1.0f, 1.0f, 0.0f), XMFLOAT2(1,0) ,XMFLOAT3(0.0f, 0.0f, 1.0f), },
-
 		{ XMFLOAT3(-1.0f, -1.0f, 0.0f), XMFLOAT2(0,1) ,XMFLOAT3(0.0f, 0.0f, 1.0f), },
 		{ XMFLOAT3(-1.0f, -1.0f, 0.0f), XMFLOAT2(0,1) ,XMFLOAT3(0.0f, 0.0f, 1.0f), },
 		{ XMFLOAT3(1.0f, 1.0f, 0.0f), XMFLOAT2(1,0) ,XMFLOAT3(0.0f, 0.0f, 1.0f), },
 		{ XMFLOAT3(1.0f, -1.0f, 0.0f), XMFLOAT2(1,1) ,XMFLOAT3(0.0f, 0.0f, 1.0f), },
-
-
 	};
-
-	LoadCatmullClark(L"ccsphere.cmp", g_pd3dDevice, &g_pVertexBuffer_sky, &vertex_count);
 
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
@@ -623,12 +608,12 @@ HRESULT InitDevice()
 	bd.CPUAccessFlags = 0;
 	D3D11_SUBRESOURCE_DATA InitData;
 	ZeroMemory(&InitData, sizeof(InitData));
-	InitData.pSysMem = vertices_skybox;
-	hr = g_pd3dDevice->CreateBuffer(&bd, &InitData, &g_pVertexBuffer_screen);//thats b.u.l.l.s.h.i.t.
-
+	InitData.pSysMem = vertices_screen;
+	hr = g_pd3dDevice->CreateBuffer(&bd, &InitData, &g_pVertexBuffer_screen);
 	if (FAILED(hr))
 		return hr;
-	// Create vertex buffer
+
+	// Create double sided square vertex buffer
 	SimpleVertex vertices[] =
 	{
 		{ XMFLOAT3(-1.0f, -1.0f, 0.0f), XMFLOAT2(0.0f, 1.0f) ,XMFLOAT3(0.0f, 0.0f, 1.0f) },
@@ -644,9 +629,7 @@ HRESULT InitDevice()
 		{ XMFLOAT3(1.0f, 1.0f, 0.0f), XMFLOAT2(1.0f, 0.0f) ,XMFLOAT3(0.0f, 0.0f, 1.0f) },
 		{ XMFLOAT3(-1.0f, -1.0f, 0.0f), XMFLOAT2(0.0f, 1.0f) ,XMFLOAT3(0.0f, 0.0f, 1.0f) },
 		{ XMFLOAT3(-1.0f, 1.0f, 0.0f), XMFLOAT2(0.0f, 0.0f),XMFLOAT3(0.0f, 0.0f, 1.0f) }
-
 	};
-
 
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DEFAULT;
@@ -659,7 +642,7 @@ HRESULT InitDevice()
 	if (FAILED(hr))
 		return hr;
 
-	//make the vertex buffer of the voxels
+	// Create voxel vertex buffer
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = sizeof(SimpleVertex) * voxel.anz;
@@ -676,7 +659,6 @@ HRESULT InitDevice()
 	UINT offset = 0;
 	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
 
-
 	// Set primitive topology
 	g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -689,25 +671,25 @@ HRESULT InitDevice()
 	if (FAILED(hr))
 		return hr;
 
-	// Load Skybox Texture
+	// Load skybox texture
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"skybox.jpg", NULL, NULL, &g_pSkyboxTex, NULL);
 	if (FAILED(hr))
 		return hr;
 
-	// Load the Texture
+	// Load cloud texture
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"smoke.dds", NULL, NULL, &g_pTextureRV, NULL);
 	if (FAILED(hr))
 		return hr;
 
-	// Load the Texture
+	// Load cloud normal map texture
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"smoke_NormalMap.png", NULL, NULL, &normaltex, NULL);
 	if (FAILED(hr))
 		return hr;
 
+	// Load sun texture
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"sun.png", NULL, NULL, &g_pTextureSun, NULL);
 	if (FAILED(hr))
 		return hr;
-
 
 	// Create the sample state
 	D3D11_SAMPLER_DESC sampDesc;
@@ -738,6 +720,7 @@ HRESULT InitDevice()
 	// Initialize the projection matrix
 	g_Projection = XMMatrixPerspectiveFovLH(XM_PIDIV4, width / (FLOAT)height, 0.01f, 10000.0f);
 
+	// Initialize the constant buffer
 	ConstantBuffer constantbuffer;
 	constantbuffer.View = XMMatrixTranspose(g_View);
 	constantbuffer.Projection = XMMatrixTranspose(g_Projection);
@@ -745,7 +728,7 @@ HRESULT InitDevice()
 	constantbuffer.info = XMFLOAT4(1, 1, 1, 1);
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 
-	//blendstate:
+	// Create the blend state
 	D3D11_BLEND_DESC blendStateDesc;
 	ZeroMemory(&blendStateDesc, sizeof(D3D11_BLEND_DESC));
 	blendStateDesc.AlphaToCoverageEnable = FALSE;
@@ -760,13 +743,11 @@ HRESULT InitDevice()
 	blendStateDesc.RenderTarget[0].RenderTargetWriteMask = 0x0F;
 	g_pd3dDevice->CreateBlendState(&blendStateDesc, &g_BlendState);
 
-
 	float blendFactor[] = { 0, 0, 0, 0 };
 	UINT sampleMask = 0xffffffff;
 	g_pImmediateContext->OMSetBlendState(g_BlendState, blendFactor, sampleMask);
 
-
-	//create the depth stencil states for turning the depth buffer on and of:
+	// Create the depth stencil states for turning the depth buffer on and of:
 	D3D11_DEPTH_STENCIL_DESC		DS_ON, DS_OFF;
 	DS_ON.DepthEnable = true;
 	DS_ON.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
@@ -793,15 +774,13 @@ HRESULT InitDevice()
 
 	rocket_position = XMFLOAT3(0, 0, ROCKETRADIUS);
 
-	//rendertarget texture
+	// RenderTarget textures
 	RenderToTexture.Initialize(g_pd3dDevice, g_hWnd, -1, -1, FALSE, DXGI_FORMAT_R8G8B8A8_UNORM, TRUE);
 	Voxel_GI.Initialize_3DTex(g_pd3dDevice, 512, 512, 512, TRUE, DXGI_FORMAT_R8G8B8A8_UNORM, TRUE);
-
 	ShadowToTexture.Initialize(g_pd3dDevice, g_hWnd, -1, -1, FALSE, DXGI_FORMAT_R8G8B8A8_UNORM, FALSE);
 	VLToTexture.Initialize(g_pd3dDevice, g_hWnd, -1, -1, FALSE, DXGI_FORMAT_R8G8B8A8_UNORM, FALSE);
 	BrightToTexture.Initialize(g_pd3dDevice, g_hWnd, -1, -1, FALSE, DXGI_FORMAT_R8G8B8A8_UNORM, FALSE);
 	BloomToTexture.Initialize(g_pd3dDevice, g_hWnd, -1, -1, FALSE, DXGI_FORMAT_R8G8B8A8_UNORM, FALSE);
-
 
 	return S_OK;
 }
@@ -894,7 +873,7 @@ void OnMM(HWND hwnd, int x, int y, UINT keyFlags)
 
 BOOL OnCreate(HWND hwnd, CREATESTRUCT FAR* lpCreateStruct)
 {
-	RECT rc; 			//rectange structure
+	RECT rc;
 	GetWindowRect(hwnd, &rc); 	//retrieves the window size
 	int border = 5;
 	rc.bottom -= border;
@@ -930,11 +909,9 @@ void OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
 	case 69: cam.e = 0; //s
 		break;
 	default:break;
-
 	}
-
 }
-int voxeldraw = 0;
+
 void OnKeyDown(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
 {
 
@@ -1342,7 +1319,7 @@ void Render_to_texture2(long elapsed)
 	g_pImmediateContext->Draw(6, 0);
 
 	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureRV);
-	ID3D11ShaderResourceView*           d3dtexture = Voxel_GI.GetShaderResourceView();// THE MAGIC	
+	ID3D11ShaderResourceView*           d3dtexture = Voxel_GI.GetShaderResourceView();	
 	g_pImmediateContext->GenerateMips(d3dtexture);
 	g_pImmediateContext->PSSetShaderResources(3, 1, &d3dtexture);
 	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
@@ -1391,7 +1368,7 @@ void Render_to_texture2(long elapsed)
 		g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
 		g_pImmediateContext->PSSetConstantBuffers(0, 1, &g_pCBuffer);
 		g_pImmediateContext->GSSetConstantBuffers(0, 1, &g_pCBuffer);
-		ID3D11ShaderResourceView*           d3dtexture = Voxel_GI.GetShaderResourceView();// THE MAGIC	
+		ID3D11ShaderResourceView*           d3dtexture = Voxel_GI.GetShaderResourceView();
 		g_pImmediateContext->GSSetShaderResources(5, 1, &d3dtexture);
 		g_pImmediateContext->PSSetSamplers(0, 1, &SamplerScreen);
 		g_pImmediateContext->GSSetSamplers(0, 1, &SamplerScreen);
@@ -1533,12 +1510,11 @@ void Render_to_texturebloom(long elapsed)
 
 	XMFLOAT3 lpos = XMFLOAT3(25, 50, 500);
 	XMVECTOR det;
-	XMMATRIX ip = g_Projection;// XMMatrixTranspose(g_Projection);
-	XMMATRIX iv = view;//XMMatrixTranspose(view);
+	XMMATRIX ip = g_Projection;
+	XMMATRIX iv = view;
 	XMFLOAT2 screencam = get2dPoint(lpos, iv, ip);
 	screencam.y = -screencam.y;
-	//screencam = XMFLOAT2(0, 0);
-	// Update constant buffer
+
 	ConstantBuffer constantbuffer;
 	constantbuffer.World = XMMatrixIdentity();
 	constantbuffer.View = view;
@@ -1576,7 +1552,6 @@ void MakeClouds()
 	offsetx = rand() % 50 * noise(rand() % 50, rand() % 50);
 	offsetz = rand() % 50 * noise(rand() % 50, rand() % 50);
 	for (int i = 0; i < 30; i++) {
-
 		billboard *new_bill = new billboard;
 
 		new_bill->position.x = rocket_position.x + offsetx + 2 * noise(rand() % 100, rand() % 100);
@@ -1585,17 +1560,12 @@ void MakeClouds()
 
 		new_bill->scale = 1. + (float)(rand() % 100) / 300.;
 		smokeray.push_back(new_bill);
-		//worldmatrix = new_bill->get_matrix(view);
-
-
 	}
 }
 
 
 void Render_to_3dtexture(long elapsed)
 {
-
-
 	ID3D11UnorderedAccessView *uav[8] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 	float ClearColorRT[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
 	ID3D11RenderTargetView*			RenderTarget;
@@ -1728,15 +1698,15 @@ void Render_to_screen(long elapsed)
 	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
 	g_pImmediateContext->PSSetConstantBuffers(0, 1, &g_pCBuffer);
 
-	ID3D11ShaderResourceView*           texture = RenderToTexture.GetShaderResourceView();// THE MAGIC
+	ID3D11ShaderResourceView*           texture = RenderToTexture.GetShaderResourceView();
 	ID3D11ShaderResourceView*			texture2 = VLToTexture.GetShaderResourceView();
 
 	g_pImmediateContext->PSSetShaderResources(0, 1, &texture);
-	ID3D11ShaderResourceView*           vx = Voxel_GI.GetShaderResourceView();// THE MAGIC
+	ID3D11ShaderResourceView*           vx = Voxel_GI.GetShaderResourceView();
 	g_pImmediateContext->PSSetShaderResources(3, 1, &vx);
 	g_pImmediateContext->PSSetShaderResources(4, 1, &texture2);
 
-	ID3D11ShaderResourceView* texture3 = BloomToTexture.GetShaderResourceView();// THE MAGIC
+	ID3D11ShaderResourceView* texture3 = BloomToTexture.GetShaderResourceView();
 	g_pImmediateContext->PSSetShaderResources(5, 1, &texture3);
 
 
@@ -1773,7 +1743,6 @@ void Render()
 	Render_to_texturebloom(elapsed);	//bloom
 	Render_to_texture3(elapsed);
 	Render_to_screen(elapsed);
-
 }
 
 

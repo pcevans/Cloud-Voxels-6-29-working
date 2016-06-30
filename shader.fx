@@ -352,7 +352,7 @@ float4 PScloud(PS_INPUT input) : SV_Target
 	collectsides /= 4;
 
 	//collectmain = collectsides;
-	//collectmain = (collectmain * .7) + (collectsides * .3);
+	collectmain = (collectmain * .7) + (collectsides * .3);
 
 	collectmain = pow(collectmain, 1.0)*1.7;
 	collectmain = saturate(collectmain + 0.2);
