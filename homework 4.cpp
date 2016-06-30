@@ -1158,7 +1158,7 @@ float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // red, green, blue, alpha
 	worldmatrix = XMMatrixIdentity();
 
 	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureRV);
-	ID3D11ShaderResourceView*           d3dtexture = Voxel_GI.GetShaderResourceView();// THE MAGIC	
+	ID3D11ShaderResourceView*           d3dtexture = Voxel_GI.GetShaderResourceView();
 	g_pImmediateContext->GenerateMips(d3dtexture);
 	g_pImmediateContext->PSSetShaderResources(3, 1, &d3dtexture);
 	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
@@ -1205,7 +1205,7 @@ float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // red, green, blue, alpha
 		g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
 		g_pImmediateContext->PSSetConstantBuffers(0, 1, &g_pCBuffer);
 		g_pImmediateContext->GSSetConstantBuffers(0, 1, &g_pCBuffer);
-		ID3D11ShaderResourceView*           d3dtexture = Voxel_GI.GetShaderResourceView();// THE MAGIC	
+		ID3D11ShaderResourceView*           d3dtexture = Voxel_GI.GetShaderResourceView();
 		g_pImmediateContext->GSSetShaderResources(5, 1, &d3dtexture);
 		g_pImmediateContext->PSSetSamplers(0, 1, &SamplerScreen);
 		g_pImmediateContext->GSSetSamplers(0, 1, &SamplerScreen);
@@ -1525,7 +1525,7 @@ void Render_to_texturebloom(long elapsed)
 
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0); //update constant buffer
 	g_pImmediateContext->VSSetShader(VSbloom, NULL, 0);			//set vertex shader
-	g_pImmediateContext->PSSetShader(PSbloom, NULL, 0);			//set pixel shader
+	g_pImmediateContext->PSSetShader(PSbloom, NULL, 0);			//set pixel shader		
 	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);	//set constant buffer for both vertex and pixel shaders
 	g_pImmediateContext->PSSetConstantBuffers(0, 1, &g_pCBuffer);
 	g_pImmediateContext->VSSetShaderResources(0, 1, &texture);		//set texture resource for both vertex and pixel shaders
