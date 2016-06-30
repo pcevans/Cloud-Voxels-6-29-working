@@ -373,7 +373,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="voxel.fx">
+    <None Include="voxel.fx">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">Geometry</ShaderType>
@@ -387,7 +387,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
       <FileType>Document</FileType>
-    </Text>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="homework 4.cpp" />
@@ -404,6 +404,15 @@
     <ResourceCompile Include="homework 8.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bloomshader.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="shadowshader.fx">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="vlshader.fx">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

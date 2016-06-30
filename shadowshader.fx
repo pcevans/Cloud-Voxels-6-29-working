@@ -11,7 +11,8 @@ Texture2D txDiffuse : register(t0);
 Texture2D txHeight : register(t1);
 SamplerState samLinear : register(s0);
 
-cbuffer ConstantBuffer : register(b0) {
+cbuffer ConstantBuffer : register(b0) 
+{
 	matrix World;
 	matrix View;
 	matrix Projection;
@@ -20,13 +21,15 @@ cbuffer ConstantBuffer : register(b0) {
 };
 
 //--------------------------------------------------------------------------------------
-struct VS_INPUT {
+struct VS_INPUT 
+{
 	float4 Pos : POSITION;
 	float2 Tex : TEXCOORD0;
 	float3 Norm : NORMAL0;
 };
 
-struct PS_INPUT {
+struct PS_INPUT 
+{
 	float4 Pos : SV_POSITION;
 	float2 Tex : TEXCOORD0;
 	float3 WorldPos : TEXCOORD1;
@@ -38,7 +41,8 @@ struct PS_INPUT {
 // Vertex Shader
 //--------------------------------------------------------------------------------------
 
-PS_INPUT VS(VS_INPUT input) {
+PS_INPUT VS(VS_INPUT input) 
+{
 	PS_INPUT output = (PS_INPUT)0;
 	float4 pos = input.Pos;
 	if (info.y == 1) {
@@ -85,8 +89,8 @@ float4 PSscene(PS_INPUT input) : SV_Target
 }
 
 float4 PSsun(PS_INPUT input) : SV_Target
-	{
+{
 	float4 color = txDiffuse.Sample(samLinear, input.Tex);
 	color.a = color.r;
 	return color;
-	}
+}

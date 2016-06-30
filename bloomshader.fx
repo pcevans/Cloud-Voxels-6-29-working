@@ -27,7 +27,7 @@ struct VS_INPUT
 {
     float4 Pos : POSITION;
     float2 Tex : TEXCOORD0;
-	float3 Norm : NORMAL0;//here
+	float3 Norm : NORMAL0;
 };
 
 struct PS_INPUT
@@ -79,11 +79,11 @@ float4 PS_bloom(PS_INPUT input) : SV_Target
 	float toneMappedLuminance = pixelLuminance / (pixelLuminance + 1);
 	color = toneMappedLuminance * pow(color / pixelLuminance, 1);
 	float4 tonemap = float4(color.r, color.g, color.b, 1);
-		//return tonemap;
-		tonemap /= 4;
-		float4 total = float4(0, 0, 0, 0);
-		//float BlurWeights[25];
-		float weight = 20;
+	//return tonemap;
+	tonemap /= 4;
+	float4 total = float4(0, 0, 0, 0);
+	//float BlurWeights[25];
+	float weight = 20;
 	float t = 0.002;
 
 	for (int i = -2; i <= 2; i++) {

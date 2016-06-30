@@ -2,7 +2,8 @@ Texture2D txDiffuse : register(t0);
 Texture2D txDepth : register(t1);
 SamplerState samLinear : register(s0);
 
-cbuffer ConstantBuffer : register(b0) {
+cbuffer ConstantBuffer : register(b0) 
+{
 	matrix World;
 	matrix View;
 	matrix Projection;
@@ -11,13 +12,15 @@ cbuffer ConstantBuffer : register(b0) {
 };
 
 //--------------------------------------------------------------------------------------
-struct VS_INPUT {
+struct VS_INPUT 
+{
 	float4 Pos : POSITION;
 	float2 Tex : TEXCOORD0;
 	float3 Norm : NORMAL0;
 };
 
-struct PS_INPUT {
+struct PS_INPUT 
+{
 	float4 Pos : SV_POSITION;
 	float2 Tex : TEXCOORD0;
 	float2 LightPos : TEXCOORD1;
@@ -25,7 +28,8 @@ struct PS_INPUT {
 };
 
 
-PS_INPUT VS(VS_INPUT input) {
+PS_INPUT VS(VS_INPUT input) 
+{
 	PS_INPUT output = (PS_INPUT)0;
 	float4 pos = input.Pos;
 	float4 lpos = info;
@@ -47,7 +51,8 @@ PS_INPUT VS(VS_INPUT input) {
 	return output;
 }
 
-float4 PS(PS_INPUT input) : SV_Target{
+float4 PS(PS_INPUT input) : SV_Target
+{
 	//float3 texture_color = txDiffuse.Sample(samLinear, input.LightPos);
 	//return float4(texture_color, 1);
 

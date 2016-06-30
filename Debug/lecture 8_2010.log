@@ -102,82 +102,82 @@ c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonys
 c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\controller.h(106): warning C4244: '=': conversion from 'int' to 'WORD', possible loss of data
 c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\controller.h(107): warning C4244: '=': conversion from 'int' to 'WORD', possible loss of data
 c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(139): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(849): warning C4100: 'keyFlags': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(849): warning C4100: 'y': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(849): warning C4100: 'x': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(849): warning C4100: 'fDoubleClick': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(849): warning C4100: 'hwnd': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(850): warning C4100: 'keyFlags': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(850): warning C4100: 'y': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(850): warning C4100: 'x': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(850): warning C4100: 'fDoubleClick': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(850): warning C4100: 'hwnd': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(851): warning C4100: 'cRepeat': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(851): warning C4100: 'ch': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(851): warning C4100: 'hwnd': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(852): warning C4100: 'keyFlags': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(852): warning C4100: 'y': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(852): warning C4100: 'x': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(852): warning C4100: 'hwnd': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(853): warning C4100: 'keyFlags': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(853): warning C4100: 'y': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(853): warning C4100: 'x': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(853): warning C4100: 'hwnd': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(898): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(909): warning C4100: 'lpCreateStruct': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(925): warning C4100: 'id': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(925): warning C4100: 'hwnd': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(928): warning C4100: 'flags': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(928): warning C4100: 'cRepeat': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(928): warning C4100: 'fDown': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(928): warning C4100: 'hwnd': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(952): warning C4100: 'flags': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(952): warning C4100: 'cRepeat': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(952): warning C4100: 'fDown': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(952): warning C4100: 'hwnd': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(977): warning C4189: 'breakpoint': local variable is initialized but not referenced
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1052): warning C4459: declaration of 'g_pd3dDevice' hides global declaration
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(835): warning C4100: 'keyFlags': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(835): warning C4100: 'y': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(835): warning C4100: 'x': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(835): warning C4100: 'fDoubleClick': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(835): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(836): warning C4100: 'keyFlags': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(836): warning C4100: 'y': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(836): warning C4100: 'x': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(836): warning C4100: 'fDoubleClick': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(836): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(837): warning C4100: 'cRepeat': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(837): warning C4100: 'ch': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(837): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(838): warning C4100: 'keyFlags': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(838): warning C4100: 'y': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(838): warning C4100: 'x': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(838): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(839): warning C4100: 'keyFlags': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(839): warning C4100: 'y': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(839): warning C4100: 'x': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(839): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(884): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(895): warning C4100: 'lpCreateStruct': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(911): warning C4100: 'id': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(911): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(914): warning C4100: 'flags': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(914): warning C4100: 'cRepeat': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(914): warning C4100: 'fDown': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(914): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(938): warning C4100: 'flags': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(938): warning C4100: 'cRepeat': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(938): warning C4100: 'fDown': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(938): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(963): warning C4189: 'breakpoint': local variable is initialized but not referenced
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1038): warning C4459: declaration of 'g_pd3dDevice' hides global declaration
   c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(27): note: see declaration of 'g_pd3dDevice'
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1052): warning C4459: declaration of 'vertex_count' hides global declaration
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1038): warning C4459: declaration of 'vertex_count' hides global declaration
   c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(77): note: see declaration of 'vertex_count'
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1117): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1119): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1120): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1152): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1153): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1158): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1208): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1210): warning C4456: declaration of 'constantbuffer' hides previous local declaration
-  c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1144): note: see declaration of 'constantbuffer'
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1245): warning C4456: declaration of 'd3dtexture' hides previous local declaration
-  c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1198): note: see declaration of 'd3dtexture'
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1289): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1290): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1295): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1369): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1371): warning C4456: declaration of 'constantbuffer' hides previous local declaration
-  c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1281): note: see declaration of 'constantbuffer'
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1408): warning C4456: declaration of 'd3dtexture' hides previous local declaration
-  c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1359): note: see declaration of 'd3dtexture'
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1429): warning C4100: 'elapsed': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1445): warning C4101: 'det': unreferenced local variable
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1482): warning C4100: 'elapsed': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1531): warning C4100: 'elapsed': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1549): warning C4101: 'det': unreferenced local variable
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1590): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1591): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1596): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1597): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1598): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1600): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1655): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1686): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1689): warning C4456: declaration of 'constantbuffer' hides previous local declaration
-  c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1632): note: see declaration of 'constantbuffer'
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1609): warning C4100: 'elapsed': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1718): warning C4100: 'elapsed': unreferenced formal parameter
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1779): warning C4244: 'initializing': conversion from 'long double' to 'long', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1782): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
-c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1117): warning C4702: unreachable code
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1103): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1105): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1106): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1138): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1139): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1144): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1194): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1196): warning C4456: declaration of 'constantbuffer' hides previous local declaration
+  c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1130): note: see declaration of 'constantbuffer'
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1231): warning C4456: declaration of 'd3dtexture' hides previous local declaration
+  c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1184): note: see declaration of 'd3dtexture'
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1275): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1276): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1281): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1355): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1357): warning C4456: declaration of 'constantbuffer' hides previous local declaration
+  c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1267): note: see declaration of 'constantbuffer'
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1394): warning C4456: declaration of 'd3dtexture' hides previous local declaration
+  c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1345): note: see declaration of 'd3dtexture'
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1415): warning C4100: 'elapsed': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1431): warning C4101: 'det': unreferenced local variable
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1468): warning C4100: 'elapsed': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1517): warning C4100: 'elapsed': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1535): warning C4101: 'det': unreferenced local variable
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1576): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1577): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1582): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1583): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1584): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1586): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1641): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1672): warning C4018: '<': signed/unsigned mismatch
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1675): warning C4456: declaration of 'constantbuffer' hides previous local declaration
+  c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1618): note: see declaration of 'constantbuffer'
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1595): warning C4100: 'elapsed': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1704): warning C4100: 'elapsed': unreferenced formal parameter
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1765): warning C4244: 'initializing': conversion from 'long double' to 'long', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1768): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(1103): warning C4702: unreachable code
   lecture 8_2010.vcxproj -> C:\Users\gameprogrammer\Desktop\CloudVoxels_TraversedLighting_Skysphere_AnthonysMod\Cloud Voxels 6-29 working\Debug\homework 4.exe
   lecture 8_2010.vcxproj -> C:\Users\gameprogrammer\Desktop\CloudVoxels_TraversedLighting_Skysphere_AnthonysMod\Cloud Voxels 6-29 working\Debug\homework 4.pdb (Full PDB)

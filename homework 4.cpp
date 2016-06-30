@@ -336,8 +336,8 @@ HRESULT InitDevice()
 
 	/////////// Shaders ///////////
 	ID3DBlob* pVSBlob = NULL;
-	ID3DBlob* pPSBlob = NULL;
 	ID3DBlob* pGSBlob = NULL;
+	ID3DBlob* pPSBlob = NULL;
 
 	// Voxel vertex shader
 	hr = CompileShaderFromFile(L"voxel.fx", "VS", "vs_4_0", &pVSBlob);
@@ -353,6 +353,19 @@ HRESULT InitDevice()
 		pVSBlob->Release();
 		return hr;
 	}
+
+	// Voxel geometry shader
+	hr = CompileShaderFromFile(L"voxel.fx", "GS", "gs_4_0", &pGSBlob);
+	if (FAILED(hr))
+	{
+		MessageBox(NULL,
+			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
+		return hr;
+	}
+	hr = g_pd3dDevice->CreateGeometryShader(pGSBlob->GetBufferPointer(), pGSBlob->GetBufferSize(), NULL, &voxelGS);
+	pGSBlob->Release();
+	if (FAILED(hr))
+		return hr;
 	
 	// Voxel pixel shader
 	hr = CompileShaderFromFile(L"voxel.fx", "PS", "ps_4_0", &pPSBlob);
@@ -367,19 +380,6 @@ HRESULT InitDevice()
 	if (FAILED(hr))
 		return hr;
 
-	// Voxel geometry shader
-	hr = CompileShaderFromFile(L"voxel.fx", "GS", "gs_4_0", &pGSBlob);
-	if (FAILED(hr))
-	{
-		MessageBox(NULL,
-			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
-		return hr;
-	}
-	hr = g_pd3dDevice->CreateGeometryShader(pGSBlob->GetBufferPointer(), pGSBlob->GetBufferSize(), NULL, &voxelGS);
-	pGSBlob->Release();
-	if (FAILED(hr))
-		return hr;
-
 	// Scene vertex shader
 	pVSBlob = NULL;
 	hr = CompileShaderFromFile(L"shader.fx", "VS", "vs_4_0", &pVSBlob);
@@ -390,22 +390,6 @@ HRESULT InitDevice()
 		return hr;
 	}
 	hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, &g_pVertexShader);
-	if (FAILED(hr))
-	{
-		pVSBlob->Release();
-		return hr;
-	}
-
-	// Screen vertex shader
-	pVSBlob = NULL;
-	hr = CompileShaderFromFile(L"shader.fx", "VS_screen", "vs_4_0", &pVSBlob);//here you load the shader from the fx file into the monstrous blob 
-	if (FAILED(hr))
-	{
-		MessageBox(NULL,
-			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
-		return hr;
-	}
-	hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, &g_pVertexShader_screen);//and here you build the shader from the blob, this order must kept
 	if (FAILED(hr))
 	{
 		pVSBlob->Release();
@@ -426,22 +410,7 @@ HRESULT InitDevice()
 	if (FAILED(hr))
 		return hr;
 
-	pPSBlob = NULL;
-	hr = CompileShaderFromFile(L"shader.fx", "PS_screen", "ps_4_0", &pPSBlob);
-	if (FAILED(hr))
-	{
-		MessageBox(NULL,
-			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
-		return hr;
-	}
-
-	// Create the pixel shader
-	hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_pPixelShader_screen);
-	pPSBlob->Release();
-	if (FAILED(hr))
-		return hr;
-
-
+	// Cloud pixel shader
 	pPSBlob = NULL;
 	hr = CompileShaderFromFile(L"shader.fx", "PScloud", "ps_4_0", &pPSBlob);
 	if (FAILED(hr))
@@ -450,14 +419,12 @@ HRESULT InitDevice()
 			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
 		return hr;
 	}
-
-	// Create the pixel shader
 	hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &PScloud);
 	pPSBlob->Release();
 	if (FAILED(hr))
 		return hr;
 
-	////////////skybox pixel shader
+	// Skybox pixel shader
 	pPSBlob = NULL;
 	hr = CompileShaderFromFile(L"shader.fx", "PSsky", "ps_4_0", &pPSBlob);
 	if (FAILED(hr))
@@ -466,29 +433,42 @@ HRESULT InitDevice()
 			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
 		return hr;
 	}
-
-	// Create the pixel shader
 	hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_pPixelShader_sky);
 	pPSBlob->Release();
 	if (FAILED(hr))
 		return hr;
 
-
-	pPSBlob = NULL;
-	hr = CompileShaderFromFile(L"bloomshader.fx", "PS_bright", "ps_4_0", &pPSBlob);
+	// Screen vertex shader
+	pVSBlob = NULL;
+	hr = CompileShaderFromFile(L"shader.fx", "VS_screen", "vs_4_0", &pVSBlob);//here you load the shader from the fx file into the monstrous blob 
 	if (FAILED(hr))
 	{
 		MessageBox(NULL,
 			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
 		return hr;
 	}
+	hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, &g_pVertexShader_screen);//and here you build the shader from the blob, this order must kept
+	if (FAILED(hr))
+	{
+		pVSBlob->Release();
+		return hr;
+	}
 
-	// Create the pixel shader
-	hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &PSbright);
+	// Screen pixel shader
+	pPSBlob = NULL;
+	hr = CompileShaderFromFile(L"shader.fx", "PS_screen", "ps_4_0", &pPSBlob);
+	if (FAILED(hr))
+	{
+		MessageBox(NULL,
+			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
+		return hr;
+	}
+	hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_pPixelShader_screen);
 	pPSBlob->Release();
 	if (FAILED(hr))
 		return hr;
 
+	// Bloom vertex shader
 	pPSBlob = NULL;
 	hr = CompileShaderFromFile(L"bloomshader.fx", "VS", "vs_4_0", &pPSBlob);
 	if (FAILED(hr))
@@ -497,13 +477,12 @@ HRESULT InitDevice()
 			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
 		return hr;
 	}
-
-	// Create the pixel shader
 	hr = g_pd3dDevice->CreateVertexShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &VSbloom);
 	pPSBlob->Release();
 	if (FAILED(hr))
 		return hr;
 
+	// Bloom pixel shader
 	pPSBlob = NULL;
 	hr = CompileShaderFromFile(L"bloomshader.fx", "PS_bloom", "ps_4_0", &pPSBlob);
 	if (FAILED(hr))
@@ -512,28 +491,26 @@ HRESULT InitDevice()
 			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
 		return hr;
 	}
-
-	// Create the pixel shader
 	hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &PSbloom);
 	pPSBlob->Release();
 	if (FAILED(hr))
 		return hr;
 
+	// Bright pass pixel shader
 	pPSBlob = NULL;
-	hr = CompileShaderFromFile(L"vlshader.fx", "PS", "ps_4_0", &pPSBlob);
+	hr = CompileShaderFromFile(L"bloomshader.fx", "PS_bright", "ps_4_0", &pPSBlob);
 	if (FAILED(hr))
 	{
 		MessageBox(NULL,
 			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
 		return hr;
 	}
-
-	// Create the pixel shader
-	hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_pEffectPS);
+	hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &PSbright);
 	pPSBlob->Release();
 	if (FAILED(hr))
 		return hr;
 
+	// Volumetric lighting vertex shader
 	pPSBlob = NULL;
 	hr = CompileShaderFromFile(L"vlshader.fx", "VS", "vs_4_0", &pPSBlob);
 	if (FAILED(hr))
@@ -542,43 +519,26 @@ HRESULT InitDevice()
 			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
 		return hr;
 	}
-
-	// Create the pixel shader
 	hr = g_pd3dDevice->CreateVertexShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_pEffectVS);
 	pPSBlob->Release();
 	if (FAILED(hr))
 		return hr;
 
+	// Volumetric lighting pixel shader
 	pPSBlob = NULL;
-	hr = CompileShaderFromFile(L"shadowshader.fx", "PSscene", "ps_4_0", &pPSBlob);
+	hr = CompileShaderFromFile(L"vlshader.fx", "PS", "ps_4_0", &pPSBlob);
 	if (FAILED(hr))
 	{
 		MessageBox(NULL,
 			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
 		return hr;
 	}
-
-	// Create the pixel shader
-	hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_pShadowPS);
+	hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_pEffectPS);
 	pPSBlob->Release();
 	if (FAILED(hr))
 		return hr;
 
-	pPSBlob = NULL;
-	hr = CompileShaderFromFile(L"shadowshader.fx", "PSsun", "ps_4_0", &pPSBlob);
-	if (FAILED(hr))
-	{
-		MessageBox(NULL,
-			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
-		return hr;
-	}
-
-	// Create the pixel shader
-	hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &PSsun);
-	pPSBlob->Release();
-	if (FAILED(hr))
-		return hr;
-
+	// Shadow pass scene vertex shader
 	pPSBlob = NULL;
 	hr = CompileShaderFromFile(L"shadowshader.fx", "VS", "vs_4_0", &pPSBlob);
 	if (FAILED(hr))
@@ -587,9 +547,35 @@ HRESULT InitDevice()
 			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
 		return hr;
 	}
-
-	// Create the pixel shader
 	hr = g_pd3dDevice->CreateVertexShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_pShadowVS);
+	pPSBlob->Release();
+	if (FAILED(hr))
+		return hr;
+
+	// Shadow pass scene pixel shader
+	pPSBlob = NULL;
+	hr = CompileShaderFromFile(L"shadowshader.fx", "PSscene", "ps_4_0", &pPSBlob);
+	if (FAILED(hr))
+	{
+		MessageBox(NULL,
+			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
+		return hr;
+	}
+	hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_pShadowPS);
+	pPSBlob->Release();
+	if (FAILED(hr))
+		return hr;
+
+	// Shadow pass sun pixel shader
+	pPSBlob = NULL;
+	hr = CompileShaderFromFile(L"shadowshader.fx", "PSsun", "ps_4_0", &pPSBlob);
+	if (FAILED(hr))
+	{
+		MessageBox(NULL,
+			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
+		return hr;
+	}
+	hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &PSsun);
 	pPSBlob->Release();
 	if (FAILED(hr))
 		return hr;
