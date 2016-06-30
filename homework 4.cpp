@@ -105,9 +105,6 @@ int									Clcount = 0;
 int									numberOfClouds = 5;
 float								offsetx = 2;
 float								offsetz = 2;
-float								billx[30];
-float								billy[30];
-float								billz[30];
 bool                                aj_madeClouds = false;
 
 
@@ -545,7 +542,6 @@ HRESULT InitDevice()
 		return hr;
 	}
 
-	//and here we go!!!
 	// Create the pixel shader
 	hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &PSbloom);
 	pPSBlob->Release();
@@ -911,6 +907,18 @@ void OnRBU(HWND hwnd, int x, int y, UINT keyFlags)
 
 
 }
+
+int plane = 0;		//global defined
+void mHideCursor() 	//hides cursor
+{
+	while (plane >= 0)
+		plane = ShowCursor(FALSE);
+}
+void mShowCursor() 	//shows it again
+{
+	while (plane<0)
+		plane = ShowCursor(TRUE);
+}
 ///////////////////////////////////
 //		This Function is called every time the Mouse Moves
 ///////////////////////////////////
@@ -949,8 +957,9 @@ void OnMM(HWND hwnd, int x, int y, UINT keyFlags)
 	int midy = (rc.top + rc.bottom) / 2;
 	SetCursorPos(midx, midy);
 	reset_cursor = 1;
-}
 
+	mHideCursor(); //hide cursor
+}
 
 BOOL OnCreate(HWND hwnd, CREATESTRUCT FAR* lpCreateStruct)
 {
@@ -1020,7 +1029,9 @@ void OnKeyDown(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
 		break;
 	case 69: cam.e = 1; //s
 		break;
-	case 27: PostQuitMessage(0);//escape
+	case 27: 
+		int breakpoint = 1;
+		PostQuitMessage(0);//escape
 		break;
 	}
 }
@@ -1688,11 +1699,6 @@ void MakeClouds()
 		new_bill->position.x = rocket_position.x + offsetx + 2 * noise(rand() % 100, rand() % 100);
 		new_bill->position.y = rocket_position.y + noise(rand() % 100, rand() % 100);
 		new_bill->position.z = rocket_position.z + offsetz + 2 * noise(rand() % 100, rand() % 100);
-
-		billx[i] = new_bill->position.x;
-		billy[i] = new_bill->position.y;
-		billz[i] = new_bill->position.z;
-
 
 		new_bill->scale = 1. + (float)(rand() % 100) / 300.;
 		smokeray.push_back(new_bill);
