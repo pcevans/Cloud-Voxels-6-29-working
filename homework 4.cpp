@@ -1090,7 +1090,7 @@ XMFLOAT2 get2dPoint(XMFLOAT3 point3D, XMMATRIX &viewMatrix, XMMATRIX &projection
 //############################################################################################################
 void Render_to_texture(long elapsed)
 {
-	float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
+float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // red, green, blue, alpha
 	ID3D11RenderTargetView*			RenderTarget;
 	RenderTarget = RenderToTexture.GetRenderTarget();
 
@@ -1227,7 +1227,7 @@ void Render_to_texture(long elapsed)
 /////Light vs. shadow mapping pass
 void Render_to_texture2(long elapsed)
 {
-	float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
+float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // red, green, blue, alpha
 	ID3D11RenderTargetView*			RenderTarget;
 	RenderTarget = ShadowToTexture.GetRenderTarget();
 
