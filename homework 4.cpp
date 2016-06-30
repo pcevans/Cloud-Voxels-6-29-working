@@ -97,18 +97,18 @@ XMMATRIX                            g_Projection;
 XMFLOAT4                            g_vMeshColor(0.7f, 0.7f, 0.7f, 1.0f);
 
 camera								cam;
-level								level1;
 vector<billboard*>					smokeray;
 XMFLOAT3							rocket_position;
 
+int									plane = 0;
 int									Clcount = 0;
 int									numberOfClouds = 5;
 float								offsetx = 2;
 float								offsetz = 2;
 bool                                aj_madeClouds = false;
 
-
 #define ROCKETRADIUS				10
+
 //--------------------------------------------------------------------------------------
 // Forward declarations
 //--------------------------------------------------------------------------------------
@@ -116,8 +116,8 @@ HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow);
 HRESULT InitDevice();
 void CleanupDevice();
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
+bool LoadCatmullClark(LPCTSTR filename, ID3D11Device* g_pd3dDevice, ID3D11Buffer **ppVertexBuffer, int *vertex_count);
 void Render();
-
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
@@ -157,9 +157,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	return (int)msg.wParam;
 }
 
-bool LoadCatmullClark(LPCTSTR filename, ID3D11Device* g_pd3dDevice, ID3D11Buffer **ppVertexBuffer, int *vertex_count);
-
-
 //--------------------------------------------------------------------------------------
 // Register class and create window
 //--------------------------------------------------------------------------------------
@@ -196,7 +193,6 @@ HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow)
 
 	return S_OK;
 }
-
 
 //--------------------------------------------------------------------------------------
 // Helper for compiling shaders with D3DX11
@@ -317,7 +313,6 @@ HRESULT InitDevice()
 	if (FAILED(hr))
 		return hr;
 
-
 	// Create the depth stencil view
 	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
 	ZeroMemory(&descDSV, sizeof(descDSV));
@@ -327,8 +322,6 @@ HRESULT InitDevice()
 	hr = g_pd3dDevice->CreateDepthStencilView(g_pDepthStencil, &descDSV, &g_pDepthStencilView);
 	if (FAILED(hr))
 		return hr;
-
-
 
 	// Setup the viewport
 	D3D11_VIEWPORT vp;
@@ -340,9 +333,13 @@ HRESULT InitDevice()
 	vp.TopLeftY = 0;
 	g_pImmediateContext->RSSetViewports(1, &vp);
 
-	//VOXELS ##################################################
-	// Compile the vertex shader
+
+	/////////// Shaders ///////////
 	ID3DBlob* pVSBlob = NULL;
+	ID3DBlob* pPSBlob = NULL;
+	ID3DBlob* pGSBlob = NULL;
+
+	// Voxel vertex shader
 	hr = CompileShaderFromFile(L"voxel.fx", "VS", "vs_4_0", &pVSBlob);
 	if (FAILED(hr))
 	{
@@ -350,17 +347,14 @@ HRESULT InitDevice()
 			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
 		return hr;
 	}
-
-	// Create the vertex shader
 	hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, &voxelVS);
 	if (FAILED(hr))
 	{
 		pVSBlob->Release();
 		return hr;
 	}
-	///////////////
-	ID3DBlob* pPSBlob = NULL;
-
+	
+	// Voxel pixel shader
 	hr = CompileShaderFromFile(L"voxel.fx", "PS", "ps_4_0", &pPSBlob);
 	if (FAILED(hr))
 	{
@@ -373,8 +367,7 @@ HRESULT InitDevice()
 	if (FAILED(hr))
 		return hr;
 
-	ID3DBlob* pGSBlob = NULL;
-
+	// Voxel geometry shader
 	hr = CompileShaderFromFile(L"voxel.fx", "GS", "gs_4_0", &pGSBlob);
 	if (FAILED(hr))
 	{
@@ -386,7 +379,8 @@ HRESULT InitDevice()
 	pGSBlob->Release();
 	if (FAILED(hr))
 		return hr;
-	// Compile the vertex shader
+
+	// Scene vertex shader
 	pVSBlob = NULL;
 	hr = CompileShaderFromFile(L"shader.fx", "VS", "vs_4_0", &pVSBlob);
 	if (FAILED(hr))
@@ -395,14 +389,14 @@ HRESULT InitDevice()
 			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
 		return hr;
 	}
-
-	// Create the vertex shader
 	hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, &g_pVertexShader);
 	if (FAILED(hr))
 	{
 		pVSBlob->Release();
 		return hr;
 	}
+
+	// Screen vertex shader
 	pVSBlob = NULL;
 	hr = CompileShaderFromFile(L"shader.fx", "VS_screen", "vs_4_0", &pVSBlob);//here you load the shader from the fx file into the monstrous blob 
 	if (FAILED(hr))
@@ -411,8 +405,6 @@ HRESULT InitDevice()
 			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
 		return hr;
 	}
-
-	// Create the vertex shader
 	hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, &g_pVertexShader_screen);//and here you build the shader from the blob, this order must kept
 	if (FAILED(hr))
 	{
@@ -420,26 +412,7 @@ HRESULT InitDevice()
 		return hr;
 	}
 
-	// Define the input layout
-	D3D11_INPUT_ELEMENT_DESC layout[] =
-	{
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
-	UINT numElements = ARRAYSIZE(layout);
-
-	// Create the input layout
-	hr = g_pd3dDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
-		pVSBlob->GetBufferSize(), &g_pVertexLayout);
-	pVSBlob->Release();
-	if (FAILED(hr))
-		return hr;
-
-	// Set the input layout
-	g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
-
-	// Compile the pixel shader
+	// Scene pixel shader
 	pPSBlob = NULL;
 	hr = CompileShaderFromFile(L"shader.fx", "PS", "ps_5_0", &pPSBlob);
 	if (FAILED(hr))
@@ -448,8 +421,6 @@ HRESULT InitDevice()
 			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
 		return hr;
 	}
-
-	// Create the pixel shader
 	hr = g_pd3dDevice->CreatePixelShader(pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &g_pPixelShader);
 	pPSBlob->Release();
 	if (FAILED(hr))
@@ -623,7 +594,24 @@ HRESULT InitDevice()
 	if (FAILED(hr))
 		return hr;
 
+	// Define the input layout
+	D3D11_INPUT_ELEMENT_DESC layout[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	};
+	UINT numElements = ARRAYSIZE(layout);
 
+	// Create the input layout
+	hr = g_pd3dDevice->CreateInputLayout(layout, numElements, pVSBlob->GetBufferPointer(),
+		pVSBlob->GetBufferSize(), &g_pVertexLayout);
+	pVSBlob->Release();
+	if (FAILED(hr))
+		return hr;
+
+	// Set the input layout
+	g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
 
 	//create skybox vertex buffer
 	SimpleVertex vertices_skybox[] =
@@ -854,79 +842,36 @@ void CleanupDevice()
 	if (g_pImmediateContext) g_pImmediateContext->Release();
 	if (g_pd3dDevice) g_pd3dDevice->Release();
 }
-///////////////////////////////////
-//		This Function is called every time the Left Mouse Button is down
-///////////////////////////////////
-bullet *bull = NULL;
-void OnLBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags)
-{
-	bull = new bullet;
-	bull->pos.x = -cam.position.x;
-	bull->pos.y = -cam.position.y - 1.2;
-	bull->pos.z = -cam.position.z;
-	XMMATRIX CR = XMMatrixRotationY(-cam.rotation.y);
-
-	XMFLOAT3 forward = XMFLOAT3(0, 0, 3);
-	XMVECTOR f = XMLoadFloat3(&forward);
-	f = XMVector3TransformCoord(f, CR);
-	XMStoreFloat3(&forward, f);
-
-	bull->imp = forward;
-
-
-
-}
 
 ///////////////////////////////////
-//		This Function is called every time the Right Mouse Button is down
+// Keyboard interaction functions
 ///////////////////////////////////
-void OnRBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags)
-{
+void OnLBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags) { }
+void OnRBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags) { }
+void OnChar(HWND hwnd, UINT ch, int cRepeat) { }
+void OnLBU(HWND hwnd, int x, int y, UINT keyFlags) { }
+void OnRBU(HWND hwnd, int x, int y, UINT keyFlags) { }
 
-}
 ///////////////////////////////////
-//		This Function is called every time a character key is pressed
+// Mouse interaction functions
 ///////////////////////////////////
-void OnChar(HWND hwnd, UINT ch, int cRepeat)
-{
-
-}
-///////////////////////////////////
-//		This Function is called every time the Left Mouse Button is up
-///////////////////////////////////
-void OnLBU(HWND hwnd, int x, int y, UINT keyFlags)
-{
-
-
-}
-///////////////////////////////////
-//		This Function is called every time the Right Mouse Button is up
-///////////////////////////////////
-void OnRBU(HWND hwnd, int x, int y, UINT keyFlags)
-{
-
-
-}
-
-int plane = 0;		//global defined
 void mHideCursor() 	//hides cursor
 {
 	while (plane >= 0)
 		plane = ShowCursor(FALSE);
 }
+
 void mShowCursor() 	//shows it again
 {
 	while (plane<0)
 		plane = ShowCursor(TRUE);
 }
-///////////////////////////////////
-//		This Function is called every time the Mouse Moves
-///////////////////////////////////
+
 void OnMM(HWND hwnd, int x, int y, UINT keyFlags)
 {
 	static int holdx = x, holdy = y;
 	static int reset_cursor = 0;
-	RECT rc; 			//rectange structure
+	RECT rc;
 	GetWindowRect(hwnd, &rc); 	//retrieves the window size
 	int border = 20;
 	rc.bottom -= border;
@@ -976,18 +921,17 @@ BOOL OnCreate(HWND hwnd, CREATESTRUCT FAR* lpCreateStruct)
 	SetCursorPos(midx, midy);
 	return TRUE;
 }
-void OnTimer(HWND hwnd, UINT id)
-{
 
-}
+void OnTimer(HWND hwnd, UINT id) { }
+
 //*************************************************************************
 void OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
 {
 	switch (vk)
 	{
-	case 65:cam.a = 0;//a
+	case 65:cam.a = 0; //a
 		break;
-	case 68: cam.d = 0;//d
+	case 68: cam.d = 0; //d
 		break;
 	case 32: //space
 		break;
@@ -1058,11 +1002,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		hdc = BeginPaint(hWnd, &ps);
 		EndPaint(hWnd, &ps);
 		break;
-
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
-
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
@@ -1070,59 +1012,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-
-
 //--------------------------------------------------------------------------------------
-// sprites
+// noise functions
 //--------------------------------------------------------------------------------------
-class sprites
-{
-public:
-	XMFLOAT3 position;
-	XMFLOAT3 impulse;
-	float rotation_x;
-	float rotation_y;
-	float rotation_z;
-	sprites()
-	{
-		impulse = position = XMFLOAT3(0, 0, 0);
-		rotation_x = rotation_y = rotation_z;
-	}
-	XMMATRIX animation()
-	{
-		//update position:
-		position.x = position.x + impulse.x; //newtons law
-		position.y = position.y + impulse.y; //newtons law
-		position.z = position.z + impulse.z; //newtons law
-
-		XMMATRIX M;
-		//make matrix M:
-		XMMATRIX R, Rx, Ry, Rz, T;
-		T = XMMatrixTranslation(position.x, position.y, position.z);
-		Rx = XMMatrixRotationX(rotation_x);
-		Ry = XMMatrixRotationX(rotation_y);
-		Rz = XMMatrixRotationX(rotation_z);
-		R = Rx*Ry*Rz;
-		M = R*T;
-		return M;
-	}
-};
-sprites mario;
-
-//--------------------------------------------------------------------------------------
-// Render a frame
-//--------------------------------------------------------------------------------------
-
-
-
-//*******************************************************
-
-//--------------------------------------------------------------------------------------
-// Render a frame
-//--------------------------------------------------------------------------------------
-//############################################################################################################
-
-
 double findnoise2d(double x, double y) {
 
 	int n = (int)x + (int)y * 57;
@@ -1155,7 +1047,7 @@ double noise(double x, double y) {
 }
 
 //--------------------------------------------------------------------------------------
-// Render a frame
+// sphere loader
 //--------------------------------------------------------------------------------------
 bool LoadCatmullClark(LPCTSTR filename, ID3D11Device* g_pd3dDevice, ID3D11Buffer **ppVertexBuffer, int *vertex_count)
 {
@@ -1227,6 +1119,11 @@ XMFLOAT2 get2dPoint(XMFLOAT3 point3D, XMMATRIX &viewMatrix, XMMATRIX &projection
 	int winY = (1 - point3D.y / 2.0) *	   height;
 	return XMFLOAT2(winX, winY);
 }
+
+
+//--------------------------------------------------------------------------------------
+// Render a frame
+//--------------------------------------------------------------------------------------
 //############################################################################################################
 void Render_to_texture(long elapsed)
 {
@@ -1714,15 +1611,15 @@ void Render_to_3dtexture(long elapsed)
 
 
 	ID3D11UnorderedAccessView *uav[8] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
-	float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
+	float ClearColorRT[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
 	ID3D11RenderTargetView*			RenderTarget;
 	RenderTarget = RenderToTexture.GetRenderTarget();
-	g_pImmediateContext->ClearRenderTargetView(RenderTarget, ClearColor);
+	g_pImmediateContext->ClearRenderTargetView(RenderTarget, ClearColorRT);
 	g_pImmediateContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0, 0);
 
 	uav[0] = Voxel_GI.GetUAV();
-	float black[4] = { 1,1,0,0 }; // red, green, blue, alpha
-	g_pImmediateContext->ClearUnorderedAccessViewFloat(uav[0], black);
+	float ClearColorUAV[4] = { 1,1,0,0 }; // red, green, blue, alpha
+	g_pImmediateContext->ClearUnorderedAccessViewFloat(uav[0], ClearColorUAV);
 
 	g_pImmediateContext->OMSetRenderTargetsAndUnorderedAccessViews(1, &RenderTarget, 0, 1, 1, uav, 0);
 

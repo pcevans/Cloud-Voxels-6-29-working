@@ -145,7 +145,7 @@ PS_MRTOutput PS(PS_INPUT input) : SV_Target
 
 	int3 ipos;
 
-	//This is where Anthony and Miguel will add sphere shapes to the voxels
+	// add sphere shapes to the voxels
 	ipos = voxelspace(viewpos);
 	if (ipos.x < 512 && ipos.x >= 0 && ipos.y < 512 && ipos.y >= 0 && ipos.z < 512 && ipos.z >= 0)
 	{
@@ -274,12 +274,13 @@ float4 PScloud(PS_INPUT input) : SV_Target
 
 	float collectmain = 0;
 	float collectsides = 0;
-	float collectsidescomp[4] = { 0,0,0,0 };
+	float collectsidescomp[8] = { 0,0,0,0,0,0,0,0 };
+	float3 dir[5];
 	for (int ii = 0 + 1; ii < 8 + 1; ii = ii + 1)
 		{
-		float3 dir = float3(0.0, 1. / 512., 0);
+		dir[0] = float3(0.0, 0.0, 1. / 512.);
 		float3 vpos;
-		vpos = pos + dir*ii;
+		vpos = pos + dir[0]*ii;
 
 		float4 voxelcol = Voxels_SR.SampleLevel(samLinear, vpos,ii / 2);
 		collectmain += voxelcol.a*0.0009*(ii*ii) * 2;
@@ -289,31 +290,60 @@ float4 PScloud(PS_INPUT input) : SV_Target
 	for (int i = 0; i < 2; i++) {
 		for (int ii = 0 + 1; ii < 8 + 1; ii = ii + 1)
 		{
-			float3 dir = float3(1. / 512., 0.0, 0.0);
+			dir[1] = float3(1. / 512., 0.0, 0.0);
 			if (i % 2 == 1) {
-				dir = dir * -1;
+				dir[1] = dir[1] * -1;
 			}
 			float3 vpos;
-			vpos = pos + dir*ii;
-
-			float4 voxelcol = Voxels_SR.SampleLevel(samLinear, vpos, ii / 2);
-			collectsidescomp[0] += voxelcol.a*0.0009*(ii*ii) * 2;
-		}
-	}
-	for (int i = 2; i < 4; i++) {
-		for (int ii = 0 + 1; ii < 8 + 1; ii = ii + 1)
-		{
-			float3 dir = float3(0.0, 0.0, 1. / 512.);
-			if (i % 2 == 1) {
-				dir = dir * -1;
-			}
-			float3 vpos;
-			vpos = pos + dir*ii;
+			vpos = pos + dir[1]*ii;
 
 			float4 voxelcol = Voxels_SR.SampleLevel(samLinear, vpos, ii / 2);
 			collectsidescomp[i] += voxelcol.a*0.0009*(ii*ii) * 2;
 		}
 	}
+	for (int i = 2; i < 4; i++) {
+		for (int ii = 0 + 1; ii < 8 + 1; ii = ii + 1)
+		{
+			dir[2] = float3(0, 1. / 512., 0);
+			if (i % 2 == 1) {
+				dir[2] = dir[2] * -1;
+			}
+			float3 vpos;
+			vpos = pos + dir[2] * ii;
+
+			float4 voxelcol = Voxels_SR.SampleLevel(samLinear, vpos, ii / 2);
+			collectsidescomp[i] += voxelcol.a*0.0009*(ii*ii) * 2;
+		}
+	}
+
+	/*for (int i = 4; i < 6; i++) {
+		for (int ii = 0 + 1; ii < 8 + 1; ii = ii + 1)
+		{
+			dir[3] = float3(1. / 512., 1. / 512., 0.0);
+			if (i % 2 == 1) {
+				dir[3] = dir[3] * -1;
+			}
+			float3 vpos;
+			vpos = pos + dir[3] * ii;
+
+			float4 voxelcol = Voxels_SR.SampleLevel(samLinear, vpos, ii / 2);
+			collectsidescomp[i] += voxelcol.a*0.0009*(ii*ii) * 2;
+		}
+	}
+	for (int i = 6; i < 8; i++) {
+		for (int ii = 0 + 1; ii < 8 + 1; ii = ii + 1)
+		{
+			dir[4] = float3(-1. / 512., 1. / 512., 0);
+			if (i % 2 == 1) {
+				dir[4] = dir[4] * -1;
+			}
+			float3 vpos;
+			vpos = pos + dir[4] * ii;
+
+			float4 voxelcol = Voxels_SR.SampleLevel(samLinear, vpos, ii / 2);
+			collectsidescomp[i] += voxelcol.a*0.0009*(ii*ii) * 2;
+		}
+	}*/
 	
 	for (int i = 0; i < 4; i = i + 1) {
 		collectsides += collectsidescomp[i];
@@ -321,10 +351,11 @@ float4 PScloud(PS_INPUT input) : SV_Target
 
 	collectsides /= 4;
 
-	collectmain = (collectmain * .7) + (collectsides * .3);
+	//collectmain = collectsides;
+	//collectmain = (collectmain * .7) + (collectsides * .3);
 
 	collectmain = pow(collectmain, 1.0)*1.7;
-	collectmain = saturate(collectmain + 0.3);
+	collectmain = saturate(collectmain + 0.2);
 
 	color.rgb *= saturate(1. - collectmain);
 	return float4(color.rgb, color.a);

@@ -33,7 +33,7 @@ struct VS_INPUT
 {
 	float4 Position : POSITION;
 	float2 Tex : TEXCOORD0;
-	float3 Norm : NORMAL0;//here
+	float3 Norm : NORMAL0;
 };
 
 
