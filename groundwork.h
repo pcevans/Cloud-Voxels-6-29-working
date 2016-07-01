@@ -131,10 +131,10 @@ public:
 		XMVECTOR si = XMLoadFloat3(&side);
 		si = XMVector3TransformCoord(si, Rx*Ry);
 		XMStoreFloat3(&side, si);
-		/*XMFLOAT3 up = XMFLOAT3(0, 1, 0);
+		XMFLOAT3 up = XMFLOAT3(0, 1, 0);
 		XMVECTOR u = XMLoadFloat3(&up);
 		u = XMVector3TransformCoord(u, Rx*Ry);
-		XMStoreFloat3(&up, u);*/
+		XMStoreFloat3(&up, u);
 
 		float speed = elapsed_microseconds / 100000.0;
 
@@ -162,7 +162,7 @@ public:
 			position.y += side.y * speed;
 			position.z += side.z * speed;
 		}
-		/*
+		
 		if (e)
 		{
 			position.x -= up.x * speed;
@@ -174,16 +174,36 @@ public:
 			position.x += up.x * speed;
 			position.y += up.y * speed;
 			position.z += up.z * speed;
-		}*/
+		}
 	}
 
 	XMMATRIX get_matrix(XMMATRIX *view)
 	{
-		XMMATRIX Rx, Ry, T;
-		Rx = XMMatrixRotationX(rotation.x);
-		Ry = XMMatrixRotationY(rotation.y);
+		XMFLOAT2 unit_look;
+		XMFLOAT3 unit_normal;
+		XMMATRIX RY, RXZ, T;
+
+		int x, y, z;
+
+		//if (rotation.y >= 2 * XM_PI) rotation.y -= 2 * XM_PI;
+		//if (rotation.y <= 2 * XM_PI) rotation.y += 2 * XM_PI;
+		if (rotation.x >= (XM_PI/2) - 0.5) rotation.x = ((XM_PI/2) - 0.5);
+		if (rotation.x <= (-XM_PI/2) + 0.5) rotation.x = ((-XM_PI/2) + 0.5);
+
+		unit_look = { cos(rotation.y), sin(-rotation.y) }; //make vector facing z (z = 1, x = 0)
+		XMVECTOR ul = XMLoadFloat2(&unit_look);
+		ul = XMVector2Orthogonal(XMVector2Normalize(ul)); // get axis of rotation (z = 0, x = 1)
+		XMStoreFloat2(&unit_look, ul);
+
+		unit_normal.x = unit_look.y;
+		unit_normal.y = 0;
+		unit_normal.z = unit_look.x;
+		XMVECTOR ra = XMLoadFloat3(&unit_normal);
+
+		RY = XMMatrixRotationY(rotation.y);
+		RXZ = XMMatrixRotationAxis(ra, rotation.x);
 		T = XMMatrixTranslation(position.x, position.y, position.z);
-		return T*(*view)*Rx*Ry;
+		return T*(*view) * RXZ * RY;
 	}
 };
 

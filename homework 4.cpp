@@ -1119,25 +1119,14 @@ float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // red, green, blue, alpha
 	constantbuffer.CameraPos = XMFLOAT4(cam.position.x, cam.position.y, cam.position.z, 1);
 	//constantbuffer.SunPos = XMFLOAT4(1000, 0, 0, 1);
 
-		//skysphere day and night cycle
+	//skysphere day and night cycle
 	static float f = 0.1;// elapsed / 1000000.;
 	f = f + 0.0001;
 	f += elapsed / 10000000.0;
 	constantbuffer.DayTimer.x = cos(f);
 
-	//sun cycle
-	static float angle = 0;
-	angle += elapsed / 5500000.0; //7000000 speed of sunpos
-	XMMATRIX Ry = XMMatrixRotationX(-angle); //rotates along y-axis
-	XMVECTOR ff = XMLoadFloat4(&constantbuffer.SunPos);
-	if (constantbuffer.SunPos.y < 0 && constantbuffer.SunPos.z < 0) //what are the y/z values for sun during nighttime? ANSWER: y = below horizon
-	{
-	}//Sun go dark
 
-	ff = XMVector3TransformCoord(ff, Ry);
-	XMStoreFloat4(&constantbuffer.SunPos, ff);
-
-	//
+	
 	XMMATRIX vv = view;
 	vv._41 = vv._42 = vv._43 = 0;
 	XMMATRIX M;
@@ -1254,7 +1243,6 @@ float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // red, green, blue, alpha
 	constantbuffer.View = XMMatrixTranspose(view);
 	constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 	constantbuffer.CameraPos = XMFLOAT4(cam.position.x, cam.position.y, cam.position.z, 1);
-	//constantbuffer.SunPos = XMFLOAT4(1000, 0, 0, 1);
 
 	//shysphere day and night cycle
 	static float f = 0.1;// elapsed / 1000000.;
@@ -1283,21 +1271,11 @@ float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // red, green, blue, alpha
 
 	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
 	g_pImmediateContext->Draw(vertex_count, 0);
-
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
-
 
 
 	XMMATRIX worldmatrix;
 	worldmatrix = XMMatrixIdentity();
-
-	/*
-	//shysphere day and night cycle
-	static float f = 0.1;// elapsed / 1000000.;
-	f = f + 0.0001;
-	f += elapsed / 10000000.0;
-	constantbuffer.DayTimer.x = cos(f);
-	*/
 
 	//billboard sun;
 	//sun.position = XMFLOAT3(25, 50, 1000);
@@ -1305,11 +1283,6 @@ float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // red, green, blue, alpha
 	static float angle = 0;
 	angle += elapsed / 5500000.0; //7000000 speed of sunpos
 	XMMATRIX Ry = XMMatrixRotationX(-angle); //rotates along y-axis
-	//static float suntimer = constantbuffer.DayTimer.x;
-	//static float angle = elapsed / 100000000.0;
-	//XMMATRIX rotate = XMMatrixRotationX(-XM_PIDIV2);
-	//constantbuffer.World = XMMatrixTranspose(rotate);
-	
 	
 	//render sun
 	worldmatrix = sun.get_matrix(view)*Ry;
