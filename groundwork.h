@@ -119,21 +119,22 @@ public:
 
 	void animation(float elapsed_microseconds)
 	{
-		XMMATRIX R, T;
-		R = XMMatrixRotationY(-rotation.y);
+		XMMATRIX Rx, Ry, T;
+		Ry = XMMatrixRotationY(-rotation.y);
+		Rx = XMMatrixRotationX(-rotation.x);
 
 		XMFLOAT3 forward = XMFLOAT3(0, 0, 1);
 		XMVECTOR f = XMLoadFloat3(&forward);
-		f = XMVector3TransformCoord(f, R);
+		f = XMVector3TransformCoord(f, Rx*Ry);
 		XMStoreFloat3(&forward, f);
 		XMFLOAT3 side = XMFLOAT3(1, 0, 0);
 		XMVECTOR si = XMLoadFloat3(&side);
-		si = XMVector3TransformCoord(si, R);
+		si = XMVector3TransformCoord(si, Rx*Ry);
 		XMStoreFloat3(&side, si);
-		XMFLOAT3 up = XMFLOAT3(0, 1, 0);
+		/*XMFLOAT3 up = XMFLOAT3(0, 1, 0);
 		XMVECTOR u = XMLoadFloat3(&up);
-		u = XMVector3TransformCoord(u, R);
-		XMStoreFloat3(&up, u);
+		u = XMVector3TransformCoord(u, Rx*Ry);
+		XMStoreFloat3(&up, u);*/
 
 		float speed = elapsed_microseconds / 100000.0;
 
@@ -161,7 +162,7 @@ public:
 			position.y += side.y * speed;
 			position.z += side.z * speed;
 		}
-
+		/*
 		if (e)
 		{
 			position.x -= up.x * speed;
@@ -173,15 +174,16 @@ public:
 			position.x += up.x * speed;
 			position.y += up.y * speed;
 			position.z += up.z * speed;
-		}
+		}*/
 	}
 
 	XMMATRIX get_matrix(XMMATRIX *view)
 	{
-		XMMATRIX R, T;
-		R = XMMatrixRotationY(rotation.y);
+		XMMATRIX Rx, Ry, T;
+		Rx = XMMatrixRotationX(rotation.x);
+		Ry = XMMatrixRotationY(rotation.y);
 		T = XMMatrixTranslation(position.x, position.y, position.z);
-		return T*(*view)*R;
+		return T*(*view)*Rx*Ry;
 	}
 };
 

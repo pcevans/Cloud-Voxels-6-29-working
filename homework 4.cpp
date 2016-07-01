@@ -87,6 +87,7 @@ camera								cam;
 vector<billboard*>					smokeray;
 XMFLOAT3							rocket_position;
 
+billboard							sun;
 int									plane = 0;
 int									Clcount = 0;
 int									voxeldraw = 0;
@@ -125,6 +126,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		return 0;
 	}
 	srand(time(0));
+
+	sun.position.x = 0;
+	sun.position.y = 0;
+	sun.position.z = 1000;
+
 	// Main message loop
 	MSG msg = { 0 };
 	while (WM_QUIT != msg.message)
@@ -860,7 +866,10 @@ void OnMM(HWND hwnd, int x, int y, UINT keyFlags)
 		return;
 	}
 	int diffx = holdx - x;
+	int diffy = holdy - y;
 	float angle_y = (float)diffx / 300.0;
+	float angle_x = (float)diffy / 300.0;
+	cam.rotation.x += angle_x;
 	cam.rotation.y += angle_y;
 
 	int midx = (rc.left + rc.right) / 2;
@@ -1253,18 +1262,6 @@ float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // red, green, blue, alpha
 	f += elapsed / 10000000.0;
 	constantbuffer.DayTimer.x = cos(f);
 
-	//sun cycle
-	static float angle = 0;
-	angle += elapsed / 5500000.0; //7000000 speed of sunpos
-	XMMATRIX Ry = XMMatrixRotationX(-angle); //rotates along y-axis
-	XMVECTOR ff = XMLoadFloat4(&constantbuffer.SunPos);
-	if (constantbuffer.SunPos.y < 0 && constantbuffer.SunPos.z < 0) //what are the y/z values for sun during nighttime?
-	{
-	}//Sun go dark
-
-	ff = XMVector3TransformCoord(ff, Ry);
-	XMStoreFloat4(&constantbuffer.SunPos, ff);
-
 	//
 	XMMATRIX vv = view;
 	vv._41 = vv._42 = vv._43 = 0;
@@ -1294,12 +1291,28 @@ float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // red, green, blue, alpha
 	XMMATRIX worldmatrix;
 	worldmatrix = XMMatrixIdentity();
 
+	/*
+	//shysphere day and night cycle
+	static float f = 0.1;// elapsed / 1000000.;
+	f = f + 0.0001;
+	f += elapsed / 10000000.0;
+	constantbuffer.DayTimer.x = cos(f);
+	*/
 
-	billboard sun;
-	sun.position = XMFLOAT3(25, 50, 1000);
+	//billboard sun;
+	//sun.position = XMFLOAT3(25, 50, 1000);
 	sun.scale = 50;
+	static float angle = 0;
+	angle += elapsed / 5500000.0; //7000000 speed of sunpos
+	XMMATRIX Ry = XMMatrixRotationX(-angle); //rotates along y-axis
+	//static float suntimer = constantbuffer.DayTimer.x;
+	//static float angle = elapsed / 100000000.0;
+	//XMMATRIX rotate = XMMatrixRotationX(-XM_PIDIV2);
+	//constantbuffer.World = XMMatrixTranspose(rotate);
+	
+	
 	//render sun
-	worldmatrix = sun.get_matrix(view);
+	worldmatrix = sun.get_matrix(view)*Ry;
 	constantbuffer.World = XMMatrixTranspose(worldmatrix);
 	constantbuffer.View = XMMatrixTranspose(view);
 	constantbuffer.info.x = 1;
@@ -1404,7 +1417,7 @@ void Render_to_texture3(long elapsed)
 	UINT stride = sizeof(SimpleVertex);
 	UINT offset = 0;
 
-	XMFLOAT3 lpos = XMFLOAT3(25, 50, 1000);
+	XMFLOAT3 lpos = sun.position;
 	XMVECTOR det;
 	XMMATRIX ip = g_Projection;// XMMatrixTranspose(g_Projection);
 	XMMATRIX iv = view;//XMMatrixTranspose(view);
