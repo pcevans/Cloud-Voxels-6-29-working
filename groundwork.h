@@ -74,6 +74,7 @@ class billboard
 public:
 	XMFLOAT3 position;
 	float scale;
+	float rotation;
 	float transparency;
 	
 	billboard()
@@ -85,8 +86,8 @@ public:
 
 	XMMATRIX get_matrix(XMMATRIX &ViewMatrix)
 	{
-
-		XMMATRIX view, R, T, S;
+		XMMATRIX view, R, Ry, T, S;
+		Ry = XMMatrixRotationX(-rotation);
 		view = ViewMatrix;
 		//eliminate camera translation:
 		view._41 = view._42 = view._43 = 0.0;
@@ -94,13 +95,10 @@ public:
 		R = XMMatrixInverse(&det, view); //inverse rotation
 		T = XMMatrixTranslation(position.x, position.y, position.z);
 		S = XMMatrixScaling(scale, scale, scale);
-		return S*R*T;
+		return S*R*T*Ry;
 	}
 
-	XMMATRIX get_matrix_y(XMMATRIX &ViewMatrix) //enemy-type
-	{
-
-	}
+	XMMATRIX get_matrix_y(XMMATRIX &ViewMatrix) { }
 };
 
 //********************************************
@@ -114,7 +112,7 @@ public:
 	camera()
 	{
 		w = s = a = d = q = e = 0;
-		position = position = XMFLOAT3(0, 0, 0);
+		position = rotation = XMFLOAT3(0, 0, 0);
 	}
 
 	void animation(float elapsed_microseconds)
@@ -185,10 +183,10 @@ public:
 
 		int x, y, z;
 
-		//if (rotation.y >= 2 * XM_PI) rotation.y -= 2 * XM_PI;
-		//if (rotation.y <= 2 * XM_PI) rotation.y += 2 * XM_PI;
-		if (rotation.x >= (XM_PI/2) - 0.5) rotation.x = ((XM_PI/2) - 0.5);
-		if (rotation.x <= (-XM_PI/2) + 0.5) rotation.x = ((-XM_PI/2) + 0.5);
+		//if (rotation.x >= (XM_PI/2) - 0.5) rotation.x = ((XM_PI/2) - 0.5);
+		//if (rotation.x <= (-XM_PI/2) + 0.5) rotation.x = ((-XM_PI/2) + 0.5);
+		if (rotation.x >= (XM_PI / 2)) rotation.x = ((XM_PI / 2));
+		if (rotation.x <= (-XM_PI / 2)) rotation.x = ((-XM_PI / 2));
 
 		unit_look = { cos(rotation.y), sin(-rotation.y) }; //make vector facing z (z = 1, x = 0)
 		XMVECTOR ul = XMLoadFloat2(&unit_look);
@@ -227,7 +225,6 @@ public:
 					v[xx + yy * 256 + zz * 256 * 256].Pos.x = xx;
 					v[xx + yy * 256 + zz * 256 * 256].Pos.y = yy;
 					v[xx + yy * 256 + zz * 256 * 256].Pos.z = zz;
-
 				}
 	}
 

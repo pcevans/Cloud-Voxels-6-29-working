@@ -133,7 +133,6 @@ PS_MRTOutput PS(PS_INPUT input) : SV_Target
 
 	float3 nn = saturate(dot(lightdirection, normal3));
 	nn.r += 0.3;
-	//return float4(nn.r,0,0, 1);
 	color.rgb = float3(1, 1, 1);
 
 	float4 viewpos = input.Opos;
@@ -259,7 +258,7 @@ float4 PScloud(PS_INPUT input) : SV_Target
 	normal3.z = sqrt(1 - (normal2.x*normal2.x + normal2.y*normal2.y));
 	normal3 = mul(normal3, View);
 	normaltex.rgb = mul(normaltex.rgb, View);
-	float3 lightposition = float3(0, -400, 90);
+	float3 lightposition = sun_position.xyz;
 
 	float3 lightdirection = normalize(lightposition - input.WorldPos);
 
@@ -278,8 +277,8 @@ float4 PScloud(PS_INPUT input) : SV_Target
 	float collectsidescomp[8] = { 0,0,0,0,0,0,0,0 };
 	float3 dir[5];
 	for (int ii = 0 + 1; ii < 8 + 1; ii = ii + 1)
-		{
-		dir[0] = float3(0.0, 0.0, 1. / 512.);
+	{
+		dir[0] = normalize(sun_position.xyz) * 1./512.;
 		float3 vpos;
 		vpos = pos + dir[0]*ii;
 
@@ -305,7 +304,7 @@ float4 PScloud(PS_INPUT input) : SV_Target
 	for (int i = 2; i < 4; i++) {
 		for (int ii = 0 + 1; ii < 8 + 1; ii = ii + 1)
 		{
-			dir[2] = float3(0, 1. / 512., 0);
+			dir[2] = cross(dir[0], dir[1]);
 			if (i % 2 == 1) {
 				dir[2] = dir[2] * -1;
 			}
@@ -317,35 +316,6 @@ float4 PScloud(PS_INPUT input) : SV_Target
 		}
 	}
 
-	/*for (int i = 4; i < 6; i++) {
-		for (int ii = 0 + 1; ii < 8 + 1; ii = ii + 1)
-		{
-			dir[3] = float3(1. / 512., 1. / 512., 0.0);
-			if (i % 2 == 1) {
-				dir[3] = dir[3] * -1;
-			}
-			float3 vpos;
-			vpos = pos + dir[3] * ii;
-
-			float4 voxelcol = Voxels_SR.SampleLevel(samLinear, vpos, ii / 2);
-			collectsidescomp[i] += voxelcol.a*0.0009*(ii*ii) * 2;
-		}
-	}
-	for (int i = 6; i < 8; i++) {
-		for (int ii = 0 + 1; ii < 8 + 1; ii = ii + 1)
-		{
-			dir[4] = float3(-1. / 512., 1. / 512., 0);
-			if (i % 2 == 1) {
-				dir[4] = dir[4] * -1;
-			}
-			float3 vpos;
-			vpos = pos + dir[4] * ii;
-
-			float4 voxelcol = Voxels_SR.SampleLevel(samLinear, vpos, ii / 2);
-			collectsidescomp[i] += voxelcol.a*0.0009*(ii*ii) * 2;
-		}
-	}*/
-	
 	for (int i = 0; i < 4; i = i + 1) {
 		collectsides += collectsidescomp[i];
 	}
