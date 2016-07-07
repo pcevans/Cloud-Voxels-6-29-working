@@ -23,7 +23,6 @@ ID3D11DepthStencilView*             g_pDepthStencilView = NULL;
 
 ID3D11ShaderResourceView*           g_pTextureSun = NULL;
 
-
 RenderTextureClass					RenderToTexture;
 RenderTextureClass					Voxel_GI;
 RenderTextureClass					ShadowToTexture;
@@ -94,7 +93,7 @@ int									voxeldraw = 0;
 int									numberOfClouds = 5;
 float								offsetx = 2;
 float								offsetz = 2;
-bool                                aj_madeClouds = false;
+bool                                madeClouds = false;
 
 #define ROCKETRADIUS				10
 
@@ -680,7 +679,7 @@ HRESULT InitDevice()
 		return hr;
 
 	// Load skybox texture
-	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"skybox.jpg", NULL, NULL, &g_pSkyboxTex, NULL);
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"skybox3.png", NULL, NULL, &g_pSkyboxTex, NULL);
 	if (FAILED(hr))
 		return hr;
 
@@ -800,14 +799,36 @@ HRESULT InitDevice()
 void CleanupDevice()
 {
 	if (g_pImmediateContext) g_pImmediateContext->ClearState();
-
 	if (g_pSamplerLinear) g_pSamplerLinear->Release();
 	if (g_pTextureRV) g_pTextureRV->Release();
 	if (g_pCBuffer) g_pCBuffer->Release();
 	if (g_pVertexBuffer) g_pVertexBuffer->Release();
 	if (g_pVertexLayout) g_pVertexLayout->Release();
 	if (g_pVertexShader) g_pVertexShader->Release();
+	if (g_pVertexShader_screen) g_pVertexShader_screen->Release();
 	if (g_pPixelShader) g_pPixelShader->Release();
+	if (PScloud) PScloud->Release();
+	if (g_pEffectVS) g_pEffectVS->Release();
+	if (g_pEffectPS) g_pEffectPS->Release();
+	if (g_pShadowVS) g_pShadowVS->Release();
+	if (g_pShadowPS) g_pShadowPS->Release();
+	if (PSsun) PSsun->Release();
+	if (PSbright) PSbright->Release();
+	if (PSbloom) PSbloom->Release();
+	if (VSbloom) VSbloom->Release();
+	if (voxelVS) voxelVS->Release();
+	if (voxelGS) voxelGS->Release();
+	if (voxelPS) voxelPS->Release();
+	if (g_pVertexBuffer_sky) g_pVertexBuffer_sky->Release();
+	if (g_pVertexBuffer_screen) g_pVertexBuffer_screen->Release();
+	if (ds_on) ds_on->Release();
+	if (ds_off) ds_off->Release();
+	if (g_BlendState) g_BlendState->Release();
+	if (g_pSkyboxTex) g_pSkyboxTex->Release();
+	if (normaltex) normaltex->Release();
+	if (SamplerScreen) SamplerScreen->Release();
+	if (g_pPixelShader_screen) g_pPixelShader_screen->Release();
+	if (g_pPixelShader_sky) g_pPixelShader_sky->Release();
 	if (g_pDepthStencil) g_pDepthStencil->Release();
 	if (g_pDepthStencilView) g_pDepthStencilView->Release();
 	if (g_pRenderTargetView) g_pRenderTargetView->Release();
@@ -1549,12 +1570,12 @@ void Render_to_3dtexture(long elapsed)
 	XMMATRIX worldmatrix;
 	worldmatrix = XMMatrixIdentity();
 
-	if (!aj_madeClouds)
+	if (!madeClouds)
 	{
 		for (int i = 0; i < numberOfClouds; i++)
 		{
 			MakeClouds();
-			aj_madeClouds = true;
+			madeClouds = true;
 		}
 	}
 

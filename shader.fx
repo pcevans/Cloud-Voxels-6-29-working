@@ -214,7 +214,7 @@ float4 PSsky(PS_INPUT input) : SV_Target
 	{
 		v = b*(1 - f) + c*f;
 	}
-	v.a = 0;
+	//v.a = 0;
 	return v;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -278,12 +278,12 @@ float4 PScloud(PS_INPUT input) : SV_Target
 	float3 dir[5];
 	for (int ii = 0 + 1; ii < 8 + 1; ii = ii + 1)
 	{
-		dir[0] = normalize(sun_position.xyz) * 1./512.;
+		dir[0] = normalize(lightdirection) * 1./512.;
 		float3 vpos;
 		vpos = pos + dir[0]*ii;
 
 		float4 voxelcol = Voxels_SR.SampleLevel(samLinear, vpos,ii / 2);
-		collectmain += voxelcol.a*0.0009*(ii*ii) * 2;
+		collectmain += voxelcol.a*0.0009*pow(ii, 2) * 2;
 	}
 
 	//collect voxel info from sides
@@ -298,7 +298,7 @@ float4 PScloud(PS_INPUT input) : SV_Target
 			vpos = pos + dir[1]*ii;
 
 			float4 voxelcol = Voxels_SR.SampleLevel(samLinear, vpos, ii / 2);
-			collectsidescomp[i] += voxelcol.a*0.0009*(ii*ii) * 2;
+			collectsidescomp[i] += voxelcol.a*0.0009*pow(ii, 2) * 2;
 		}
 	}
 	for (int i = 2; i < 4; i++) {
@@ -312,7 +312,7 @@ float4 PScloud(PS_INPUT input) : SV_Target
 			vpos = pos + dir[2] * ii;
 
 			float4 voxelcol = Voxels_SR.SampleLevel(samLinear, vpos, ii / 2);
-			collectsidescomp[i] += voxelcol.a*0.0009*(ii*ii) * 2;
+			collectsidescomp[i] += voxelcol.a*0.0009*pow(ii,2) * 2;
 		}
 	}
 
