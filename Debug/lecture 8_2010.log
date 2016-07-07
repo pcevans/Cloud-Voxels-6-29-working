@@ -102,6 +102,7 @@ c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonys
 c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\groundwork.h(225): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
 c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\groundwork.h(226): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
 c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\groundwork.h(227): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\groundwork.h(277): warning C4154: deletion of an array expression; conversion to pointer supplied
 c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\controller.h(106): warning C4244: '=': conversion from 'int' to 'WORD', possible loss of data
 c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\controller.h(107): warning C4244: '=': conversion from 'int' to 'WORD', possible loss of data
 c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\homework 4.cpp(127): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
@@ -275,6 +276,7 @@ c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonys
 c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\groundwork.h(225): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
 c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\groundwork.h(226): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
 c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\groundwork.h(227): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\groundwork.h(277): warning C4154: deletion of an array expression; conversion to pointer supplied
 c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\controller.h(106): warning C4244: '=': conversion from 'int' to 'WORD', possible loss of data
 c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\controller.h(107): warning C4244: '=': conversion from 'int' to 'WORD', possible loss of data
 c:\users\gameprogrammer\desktop\cloudvoxels_traversedlighting_skysphere_anthonysmod\cloud voxels 6-29 working\render_to_texture.cpp(19): warning C4101: 'renderTargetViewDesc': unreferenced local variable
