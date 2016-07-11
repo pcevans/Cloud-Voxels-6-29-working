@@ -133,7 +133,7 @@ PS_MRTOutput PS(PS_INPUT input) : SV_Target
 
 	float3 nn = saturate(dot(lightdirection, normal3));
 	nn.r += 0.3;
-	color.rgb = float3(1, 1, 1);
+	//color.rgb = float3(1, 1, 1);
 
 	float4 viewpos = input.Opos;
 	float4 originalPos = viewpos;
@@ -169,6 +169,7 @@ PS_MRTOutput PS(PS_INPUT input) : SV_Target
 				intPos = voxelspace(f3);
 				if (intPos.x < 512 && intPos.x >= 0 && intPos.y < 512 && intPos.y >= 0 && intPos.z < 512 && intPos.z >= 0) {
 					Voxel_GI[intPos] = float4(float3(0, 0, 1), 1);
+					//Voxel_GI[intPos] = color;
 				}
 			}
 		}
@@ -187,22 +188,16 @@ float4 PSsky(PS_INPUT input) : SV_Target
 	float4 day = txSkybox.Sample(samLinear, input.Tex);
 	float4 sunset = txSkybox.Sample(samLinear, input.Tex);
 	float4 night = txSkybox.Sample(samLinear, input.Tex);
-	float4 result;
 
 	day.a = 1;
 	sunset.a = .7;
 	sunset.rgb -= float3(.01, .161, .353); //orange
 	//sunset.rgb += float3(.1, -.1, .1); //purple
-
 	night.a = .05;
-	result = sunset;
+
+	//float4 color = day*(1 - f) + night*f; day/night, no sunset
 
 	float f = saturate(daytimer.x); //0->1
-	float4 cday = day;
-	float4 csunset = sunset;
-	float4 cnight = night;
-	float4 color = cday*(1 - f) + cnight*f;
-
 	float4 v, a, b, c;
 	a = day; b = sunset; c = night;
 	if (f >= 1)
@@ -258,11 +253,10 @@ float4 PScloud(PS_INPUT input) : SV_Target
 	normal3.z = sqrt(1 - (normal2.x*normal2.x + normal2.y*normal2.y));
 	normal3 = mul(normal3, View);
 	normaltex.rgb = mul(normaltex.rgb, View);
-	float3 lightposition = sun_position.xyz;
-
-	float3 lightdirection = normalize(lightposition - input.WorldPos);
-
 	normal3 = normalize(normal3 + normaltex.rgb*0.3);
+	
+	float3 lightposition = sun_position.xyz;
+	float3 lightdirection = normalize(lightposition - input.WorldPos);
 
 	float3 nn = saturate(dot(lightdirection, normal3));
 	nn.r += 0.3;

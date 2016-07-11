@@ -242,6 +242,7 @@ public:
 	XMFLOAT3 max;
 	octree* parent;
 	octree* children[8];
+	vector<billboard> contained;
 	int minsize;
 	byte activenodes;
 
